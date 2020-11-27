@@ -9,12 +9,15 @@ galaxy_info:
   min_ansible_version: 2.9
 
   platforms:
-    - name: Centos
+    - name: EL
       versions:
         - 8
     - name: Ubuntu
       version:
         - focal
+    - name: Debian
+      version:
+        - buster
 
   galaxy_tags:
     - envoyproxy
