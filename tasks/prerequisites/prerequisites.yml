@@ -1,0 +1,3 @@
+---
+- name: Install dependencies
+  include_tasks: "{{ role_path }}/tasks/prerequisites/install-dependencies.yml"

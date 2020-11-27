@@ -1,0 +1,17 @@
+---
+- name: (Debian) Install dependencies
+  apt:
+    name: "{{ envoyproxy_debian_dependencies }}"
+    update_cache: yes
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: (Ubuntu) Install dependencies
+  apt:
+    name: "{{ envoyproxy_ubuntu_dependencies }}"
+    update_cache: yes
+  when: ansible_facts['ansible_distribution'] == "Ubuntu"
+
+- name: (Amazon Linux/CentOS/Oracle Linux/RHEL) Install dependencies
+  yum:
+    name: "{{ envoyproxy_redhat_dependencies }}"
+  when: ansible_facts['os_family'] == "RedHat"

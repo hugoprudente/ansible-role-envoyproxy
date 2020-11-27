@@ -1,2 +1,38 @@
 ---
 # tasks file for ansible-role-envoyproxy
+- name: Set up prerequisites
+  include_tasks: "{{ role_path }}/tasks/prerequisites/prerequisites.yml"
+  tags: envoyproxy_prerequisites
+
+- name: Set up signing keys
+  include_tasks: "{{ role_path }}/tasks/keys/setup-keys.yml"
+  when: (envoyproxy_install | bool and envoyproxy_install_from == "envoyproxy_repository")
+        or envoyproxy_amplify_enable | bool
+  tags: envoyproxy_key
+
+
+- name: Install and Configure Envoy Proxy
+  block:
+    - name: Install Envoy Proxy
+      block:
+        - name: Modify systemd parameters
+          include_tasks: "{{ role_path }}/tasks/config/modify-systemd.yml"
+          when:
+            - ansible_facts['service_mgr'] == "systemd"
+            - envoyproxy_service_modify | bool
+          tags: envoyproxy_modify_systemd
+      when: envoyproxy_install | bool
+
+    - name: Ensure NGINX is running
+      meta: flush_handlers
+
+    - name: Debug NGINX output
+      include_tasks: "{{ role_path }}/tasks/config/debug-output.yml"
+      when: envoyproxy_debug_output | bool
+      tags: envoyproxy_debug_output
+
+    - name: Configure logrotate for NGINX
+      include_tasks: "{{ role_path }}/tasks/config/setup-logrotate.yml"
+      when: envoyproxy_logrotate_conf_enable | bool
+      tags: envoyproxy_logrotate_config
+  when: envoyproxy_enable | bool

@@ -1,0 +1,10 @@
+[Service]
+{% if envoyproxy_service_timeoutstopsec is defined %}
+TimeoutStopSec={{ envoyproxy_service_timeoutstopsec | default(90) }}
+{% endif %}
+{% if envoyproxy_service_restartonfailure is defined %}
+Restart=on-failure
+{% endif %}
+{% if envoyproxy_service_restartsec is defined %}
+RestartSec={{ envoyproxy_service_restartsec }}
+{% endif %}
