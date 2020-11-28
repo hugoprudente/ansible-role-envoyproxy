@@ -36,7 +36,7 @@ static_resources:
       cluster_name: service
       endpoints:
       - lb_endpoints:
-{% for host in groups['nodes'] %}
+{% for host in nodes %}
         - endpoint:
             address:
               socket_address:

@@ -1,0 +1,17 @@
+{% for path in envoyproxy_logrotate_conf.paths %}
+{{ path }}
+{% endfor %}
+{
+{% for option in envoyproxy_logrotate_conf.options %}
+    {{ option }}
+{% endfor %}
+    postrotate
+{% if ansible_facts['os_family'] == "Debian" %}
+        if [ -f /var/run/envoyproxy.pid ]; then
+            kill -USR1 `cat /var/run/envoyproxy.pid`
+        fi
+{% else %}
+        envoyproxy -s reopen
+{% endif %}
+    endscript
+}

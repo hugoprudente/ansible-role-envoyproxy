@@ -1,0 +1,15 @@
+---
+# Create custom logrotate config
+envoyproxy_logrotate_conf_enable: false
+envoyproxy_logrotate_conf:
+  paths:
+    - "/var/log/envoyproxy/*.log"
+  options:
+    - daily
+    - missingok
+    - rotate 14
+    - compress
+    - delaycompress
+    - notifempty
+    - create 0644 root adm  # Changes envoyproxy logs permissions
+    - sharedscripts

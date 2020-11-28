@@ -1,0 +1,12 @@
+---
+- name: Register Envoy Proxy config
+  command: envoy --mode validate -c "{{ envoyproxy_config_path }}/{{ envoyproxy_config_name }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+  check_mode: no
+  changed_when: false
+  register: config_full
+
+- name: Print Envoy Proxy config
+  debug:
+    var: config_full.stdout_lines
+  when: config_full.stdout_lines is defined

@@ -1,0 +1,19 @@
+---
+- name: "Create envoy directory"
+  file:
+    path: "{{ envoyproxy_config_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0777"
+
+- name: Copy templates to default directory
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: "0777"
+  loop:
+    - { src: envoy.yaml.j2, dest: "{{ envoyproxy_config_path }}/{{ envoyproxy_config_name }}" }
+

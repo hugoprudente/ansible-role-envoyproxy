@@ -1,2 +1,41 @@
----
-# defaults file for ansible-role-envoyproxy
+# Enable Envoy Proxy option -- `envoyproxy_install`
+# Default is true.
+envoyproxy_enable: true
+
+# Install Envoy Proxy
+# Variables for these options can be found below.
+# Default is true.
+envoyproxy_install: true
+
+# Start Envoy Proxy service.
+# Default is true.
+envoyproxy_start: true
+
+# (Optional) Specify which version of Envoy Proxy you want to install.
+# Default is to install the latest release.
+# envoyproxy_version: "1.16"
+
+# Specify whether you want to maintain your version of Envoy Proxy, upgrade to the latest version, or remove Envoy Proxy.
+# Can be used with `envoyproxy_version` to fine tune control on which version of Envoy Proxy is installed/used on each playbook execution.
+# Using 'present' will install the latest version (or 'envoyproxy_version') of Envoy Proxy on a fresh install.
+# Using 'latest' will upgrade Envoy Proxy to the latest version (that matches your 'envoyproxy_version') of Envoy Proxy on every playbook execution.
+# Using 'absent' will remove Envoy Proxy from your system.
+# Default is present.
+envoyproxy_state: present
+
+# Specify repository origin for Envoy Proxy Open Source.
+# Options are 'envoyproxy_repository', 'source' or 'os_repository'.
+# Only works if 'envoyproxy_type' is set to 'opensource'.
+# Default is envoyproxy_repository.
+envoyproxy_install_from: envoyproxy_repository
+
+# (Optional) Choose where to fetch the Envoy Proxy signing key from.
+# Default is the official Envoy Proxy signing key host.
+# envoyproxy_signing_key: https://www.getenvoy.io/gpg
+
+# Print Envoy Proxy configuration file to terminal after executing playbook.
+envoyproxy_debug_output: false
+
+# Specify the default config full path to be used by the system.
+envoyproxy_config_path: /etc/envoy
+envoyproxy_config_name: envoy.yaml

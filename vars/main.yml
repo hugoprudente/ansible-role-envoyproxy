@@ -28,4 +28,4 @@ envoyproxy_default_signing_key_pgp: https://getenvoy.io/gpg
 envoyproxy_default_repository_debian:
   - "deb [arch=amd64] https://dl.bintray.com/tetrate/getenvoy-deb {{ ansible_facts['distribution_release'] }} stable"
 
-envoyproxy_default_repository_redhat: https://getenvoy.io/linux/{{ (ansible_facts['distribution'] == 'CentOS') | ternary('centos', 'rhel') }}//tetrate-getenvoy.repo
+envoyproxy_default_repository_redhat: https://tetrate.bintray.com/getenvoy-rpm/{{ (ansible_facts['distribution'] == 'CentOS') | ternary('centos', 'rhel') }}/$releasever/$basearch/stable/

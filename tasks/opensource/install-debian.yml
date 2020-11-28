@@ -1,0 +1,16 @@
+---
+- name: (Debian/Ubuntu) Configure Envoy Proxy repository
+  apt_repository:
+    filename: envoyproxy
+    repo: "{{ item }}"
+    update_cache: yes
+    mode: 0644
+  loop: "{{ envoyproxy_repository | default(envoyproxy_default_repository_debian) }}"
+
+- name: (Debian/Ubuntu) Install Envoy Proxy
+  apt:
+    name: "getenvoy-envoy"
+    #{{ envoyproxy_version | default('') }}"
+    state: "{{ envoyproxy_state }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+  notify: (Handler) Run Envoy Proxy

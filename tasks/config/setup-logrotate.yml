@@ -1,0 +1,20 @@
+---
+- name: (Debian/Ubuntu) Install logrotate
+  apt:
+    name: logrotate
+    state: present
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: (CentOS/RHEL) Install logrotate
+  yum:
+    name: logrotate
+    state: present
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Create logrotate config
+  template:
+    src: logrotate/envoy.j2
+    dest: /etc/logrotate.d/envoy
+    mode: 0644
+  notify: (Handler) Run logrotate
+(

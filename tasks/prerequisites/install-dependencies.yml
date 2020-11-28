@@ -9,9 +9,9 @@
   apt:
     name: "{{ envoyproxy_ubuntu_dependencies }}"
     update_cache: yes
-  when: ansible_facts['ansible_distribution'] == "Ubuntu"
+  when: ansible_facts['distribution'] == "Ubuntu"
 
-- name: (Amazon Linux/CentOS/Oracle Linux/RHEL) Install dependencies
+- name: (CentOS/RHEL) Install dependencies
   yum:
     name: "{{ envoyproxy_redhat_dependencies }}"
   when: ansible_facts['os_family'] == "RedHat"

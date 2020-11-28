@@ -1,0 +1,24 @@
+---
+- name: (CentOS/RHEL 8) Configure Envoy Proxy repository
+  yum_repository:
+    name: envoyproxy
+    description: envoyproxy official repository
+    baseurl: "{{ envoyproxy_repository | default(envoyproxy_default_repository_redhat) }}"
+    gpgkey: "{{ envoyproxy_default_signing_key_pgp }}"
+    gpgcheck: yes
+    repo_gpgcheck: yes
+    enabled: yes
+    state: present
+    mode: 0644
+  when: ansible_facts['distribution_major_version'] is version('8', '==')
+
+- name: (CentOS/RHEL) Install Envoy Proxy
+  yum:
+    name: "getenvoy-envoy"
+    #envoyproxy{{ envoyproxy_version | default('') }}"
+    state: "{{ envoyproxy_state }}"
+    disablerepo: "*"
+    enablerepo: envoyproxy
+    update_cache: yes
+  ignore_errors: "{{ ansible_check_mode }}"
+  notify: (Handler) Run Envoy Proxy
