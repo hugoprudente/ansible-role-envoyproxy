@@ -40,8 +40,8 @@
       when: envoyproxy_debug_output | bool
       tags: envoyproxy_debug_output
 
-      #  - name: Configure logrotate for Envoy Proxy
-      #    include_tasks: "{{ role_path }}/tasks/config/setup-logrotate.yml"
-      #    when: envoyproxy_logrotate_conf_enable | bool
-      #    tags: envoyproxy_logrotate_config
+    - name: Configure logrotate for Envoy Proxy
+      include_tasks: "{{ role_path }}/tasks/config/setup-logrotate.yml"
+      when: envoyproxy_logrotate_conf_enable | bool
+      tags: envoyproxy_logrotate_config
   when: envoyproxy_enable | bool

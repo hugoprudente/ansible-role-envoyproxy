@@ -14,7 +14,6 @@
 - name: Create logrotate config
   template:
     src: logrotate/envoy.j2
-    dest: /etc/logrotate.d/envoy
+    dest: /etc/logrotate.d/envoyproxy
     mode: 0644
   notify: (Handler) Run logrotate
-(
