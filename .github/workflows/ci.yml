@@ -29,24 +29,24 @@ jobs:
           yamllint .
           ansible-lint
           
-  integration:
-    name: Integration
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        scenario:
-          - centos-8
-          - ubuntu_latest
-          - debian_latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          path: "${{ github.repository }}"
-      - name: Molecule
-        uses: gofrolist/molecule-action@v2
-        with:
-          molecule_options: --debug --base-config molecule/default/molecule.yml
-          molecule_command: test
-          molecule_args: --scenario-name ${{ matrix.scenario }}
+          #  integration:
+          #    name: Integration
+          #    runs-on: ubuntu-latest
+          #    strategy:
+          #      fail-fast: false
+          #      matrix:
+          #        scenario:
+          #          - centos-8
+          #          - ubuntu_latest
+          #          - debian_latest
+          #    steps:
+          #      - name: Checkout
+          #        uses: actions/checkout@v2
+          #        with:
+          #          path: hugoprudente/ansible-role-envoyproxy
+          #      - name: Molecule
+          #        uses: gofrolist/molecule-action@v2
+          #        with:
+          #          molecule_options: --base-config molecule/default/molecule.yml
+          #          molecule_command: test
+          #          molecule_args: --scenario-name ${{ matrix.scenario }}
