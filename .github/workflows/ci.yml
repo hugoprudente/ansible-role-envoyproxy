@@ -1,15 +1,14 @@
 ---
 name: CI
-'on':
+on:
   pull_request:
   push:
     branches:
-      - master
+      - main
   schedule:
     - cron: "0 5 * * 4"
 
 jobs:
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -29,49 +28,25 @@ jobs:
         run: |
           yamllint .
           ansible-lint
-
-  integration:
-    name: Integration
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os:
-          - macos-10.15
-
-    steps:
-      - name: Check out the codebase.
-        uses: actions/checkout@v2
-
-      - name: Uninstall GitHub Actions' built-in Homebrew.
-        run: tests/uninstall-homebrew.sh
-
-      - name: Uninstall GitHub Actions' built-in browser installs.
-        run: |
-          sudo rm -rf /Applications/Firefox.app
-          sudo rm -rf /Applications/Google\ Chrome.app
-
-      - name: Install test dependencies.
-        run: sudo pip3 install ansible
-
-      - name: Set up the test environment.
-        run: |
-          cp tests/ansible.cfg ./ansible.cfg
-          cp tests/inventory ./inventory
-          cp tests/config.yml ./config.yml
-          ansible-galaxy install -r requirements.yml -p ./roles
-
-      - name: Test the playbook's syntax.
-        run: ansible-playbook main.yml --syntax-check
-
-      - name: Test the playbook.
-        run: ansible-playbook main.yml
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
-
-      - name: Idempotence check.
-        run: |
-          idempotence=$(mktemp)
-          ansible-playbook main.yml | tee -a ${idempotence}
-          tail ${idempotence} | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
+          
+          #  integration:
+          #    name: Integration
+          #    runs-on: ubuntu-latest
+          #    strategy:
+          #      fail-fast: false
+          #      matrix:
+          #        scenario:
+          #          - centos-8
+          #          - ubuntu_latest
+          #          - debian_latest
+          #    steps:
+          #      - name: Checkout
+          #        uses: actions/checkout@v2
+          #        with:
+          #          path: hugoprudente/ansible-role-envoyproxy
+          #      - name: Molecule
+          #        uses: gofrolist/molecule-action@v2
+          #        with:
+          #          molecule_options: --base-config molecule/default/molecule.yml
+          #          molecule_command: test
+          #          molecule_args: --scenario-name ${{ matrix.scenario }}
