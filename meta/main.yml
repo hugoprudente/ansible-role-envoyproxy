@@ -1,8 +1,8 @@
 ---
 galaxy_info:
+  role_name: envoyproxy
   author: hugoprudente
   description: Role for create and manage Envoy Proxy
-  roler_name: envoyproxy
 
   license: Apache-2.0
 
