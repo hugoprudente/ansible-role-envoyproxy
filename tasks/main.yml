@@ -28,9 +28,9 @@
     - name: Configure Base Envoy Proxy
       block:
         - name: Create Envoy Proxy Base Config
-          include_tasks: "{{ role_path}}/tasks/config/template-config.yml"
+          include_tasks: "{{ role_path }}/tasks/config/template-config.yml"
           tags: envoyproxy_template_config
-      when: envoyproxy_install | bool 
+      when: envoyproxy_install | bool
 
     - name: Ensure Envoy Proxy is running
       meta: flush_handlers
@@ -44,4 +44,5 @@
       include_tasks: "{{ role_path }}/tasks/config/setup-logrotate.yml"
       when: envoyproxy_logrotate_conf_enable | bool
       tags: envoyproxy_logrotate_config
+
   when: envoyproxy_enable | bool

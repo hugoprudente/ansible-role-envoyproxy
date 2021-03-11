@@ -16,4 +16,3 @@
     mode: "0777"
   loop:
     - { src: envoy.yaml.j2, dest: "{{ envoyproxy_config_path }}/{{ envoyproxy_config_name }}" }
-
