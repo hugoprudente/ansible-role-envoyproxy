@@ -1,0 +1,17 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint --force-color
+platforms:
+  - name: ubuntu_latest
+    image: docker.io/pycontribs/ubuntu:latest
+    pre_build_image: true   
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
