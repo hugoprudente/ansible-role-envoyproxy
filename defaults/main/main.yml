@@ -1,4 +1,5 @@
-# Enable Envoy Proxy option -- `envoyproxy_install`
+---
+# Enable Envoy Proxy option
 # Default is true.
 envoyproxy_enable: true
 
