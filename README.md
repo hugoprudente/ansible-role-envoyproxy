@@ -1,3 +1,5 @@
+[![Integration](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/integration.yml/badge.svg?branch=main)](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/integration.yml)
+[![Lint](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/lint.yml)
 # Ansible Envoy Proxy Role
 
 A brief description of the role goes here.
@@ -40,7 +42,7 @@ At the moment I have tested it for:
 CentOS:
 - 8
 Ubuntu:
-- focal
+- focal (20.04)
 ```
 
 

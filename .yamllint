@@ -1,7 +1,8 @@
 ---
 # Based on ansible-lint config
 extends: default
-
+ignore: |
+  /opt/hostedtoolcache/
 rules:
   braces:
     max-spaces-inside: 1

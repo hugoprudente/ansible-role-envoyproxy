@@ -10,4 +10,4 @@
   tasks:
     - name: "include envoyproxy role defaults"
       include_role:
-        name: "ansible-role-envoyproxy"
+        name: "hugoprudente.envoyproxy"

@@ -19,5 +19,5 @@
 
     - name: Verify envoyproxy is up and running
       uri:
-        url: http://localhost
+        url: http://127.0.0.1
         status_code: 200
