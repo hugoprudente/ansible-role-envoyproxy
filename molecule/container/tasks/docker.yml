@@ -32,7 +32,7 @@
 - name: Install Docker from official repository
   apt:
     name: "{{ item }}"
-    state: latest
+    state: present
   loop:
     - docker-ce
     - docker-ce-cli
@@ -40,7 +40,7 @@
 
 - name: Install docker-compose from official repository
   get_url:
-    url: "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-{{ansible_system}}-{{ansible_architecture}}"
+    url: "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
     dest: /usr/local/bin/docker-compose
     mode: '0755'
 

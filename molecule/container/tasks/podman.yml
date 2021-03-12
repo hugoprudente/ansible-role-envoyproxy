@@ -2,6 +2,7 @@
 - name: "Enable user namespaces as root user"
   copy:
     dest: /etc/sysctl.d/00-local-userns.conf
+    mode: '0644'
     content: |
       kernel.unprivileged_userns_clone=1
 
@@ -42,18 +43,19 @@
   apt:
     name: libseccomp2
     update_cache: yes
-    state: latest
+    state: present
     default_release: buster-backports
 
 - name: Install podman
   apt:
     name: podman
     update_cache: yes
-    state: latest
+    state: present
 
 - name: Configure Podman to work PodmanInDocker
   copy:
     dest: /etc/containers/containers.conf
+    mode: 0644
     content: |
       [ engine ]
       cgroup_manager = "cgroupfs"
@@ -83,7 +85,7 @@
 
 - name: Install docker-compose from official repository
   get_url:
-    url: "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-{{ansible_system}}-{{ansible_architecture}}"
+    url: "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
     dest: /usr/local/bin/docker-compose
     mode: '0755'
 
