@@ -1,0 +1,50 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint -c .yamllint .
+  ansible-lint --force-color
+  flake8
+platforms:
+  - name: node-docker-1
+    image: "geerlingguy/docker-debian10-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock 
+    pre_build_image: true
+    privileged: true
+    groups:
+      - envoyproxy
+      - docker
+  - name: node-podman-2
+    image: "geerlingguy/docker-debian10-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    pre_build_image: true
+    privileged: true
+    groups:
+      - envoyproxy
+      - podman
+  - name: backend-1
+    image: "nginx:alpine"
+    command: ""
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - backends
+provisioner:
+  name: ansible
+  playbooks:
+    options:
+      vv: false
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
+    verify: ../default/verify.yml
+scenario:
+  name: container
+verifier:
+  name: ansible

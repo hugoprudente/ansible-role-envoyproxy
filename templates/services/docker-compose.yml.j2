@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  envoy:
+    image: {{ envoyproxy_container_path }}:{{ envoyproxy_version | default('v1.17-latest') }}
+    network_mode: host
+    command: "/usr/local/bin/envoy -c /etc/envoy/envoy.yaml"
+    volumes:
+      - {{ envoyproxy_config_path }}/{{ envoyproxy_config_name }}:/etc/envoy/envoy.yaml
+      - {{ envoyproxy_log_path }}:{{ envoyproxy_log_path }}

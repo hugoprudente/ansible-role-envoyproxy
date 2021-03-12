@@ -1,0 +1,27 @@
+---
+- name: Facts
+  hosts: all
+  tasks:
+    - name: Gathering facts
+      debug:
+        msg: "Only gathering facts before convege"
+
+- name: Converge Docker
+  hosts: docker
+  tasks:
+    - name: "include docker role defaults"
+      include_role:
+        name: "hugoprudente.envoyproxy"
+      vars:
+        envoyproxy_install_from: container
+        envoyproxy_container_runtime: docker
+
+- name: Converge Podman
+  hosts: podman
+  tasks:
+    - name: "include podman role defaults"
+      include_role:
+        name: "hugoprudente.envoyproxy"
+      vars:
+        envoyproxy_install_from: container
+        envoyproxy_container_runtime: podman

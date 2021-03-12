@@ -2,7 +2,11 @@
 [![Lint](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/lint.yml)
 # Ansible Envoy Proxy Role
 
-A brief description of the role goes here.
+[Envoy Proxy](envoyproxy.io) it's a powerful edge and service proxy developed for Cloud Native applications. It's a gratuated project in the [CNCF](https://www.cncf.io/projects/) and has native integrations with [Jagger](https://www.jaegertracing.io/) for observability, [Prometheus](https://prometheus.io/) for metrics and insights and others.
+
+This role goal is to help users to deploy and configure the basic of the Envoy Proxy. 
+
+Envoy Proxy configurations will not be covered here as they are complex and need a lot of work, that will fit perfect in a collections with ansible modules.
 
 ## Requirements
 
@@ -77,4 +81,4 @@ Do note that if you install this repository via Ansible Galaxy, you will have to
 
 ## Author Information
 
-[Hugo Prudente](https://https://github.com/hugoprudente/)
+[Hugo Prudente](https://github.com/hugoprudente/)

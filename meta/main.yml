@@ -9,16 +9,15 @@ galaxy_info:
   min_ansible_version: 2.10
 
   platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+    - name: Debian
+      versions:
+        - buster
     - name: EL
       versions:
         - 8
-    - name: Ubuntu
-      version:
-        - focal
-    - name: Debian
-      version:
-        - buster
-
   galaxy_tags:
     - envoyproxy
     - opensource
