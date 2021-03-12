@@ -5,19 +5,33 @@ driver:
   name: docker
 lint: |
   set -e
-  yamllint .
+  yamllint -c .yamllint .
   ansible-lint --force-color
+  flake8
 platforms:
-  - name: centos_8
-    image: docker.io/pycontribs/centos:8
+  - name: node-1
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos8}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     pre_build_image: true
-  - name: ubuntu_latest
-    image: docker.io/pycontribs/ubuntu:latest
-    pre_build_image: true   
-  - name: debian_latest
-    image: docker.io/pycontribs/debian:latest
-    pre_build_image: true
+    privileged: true
+    groups:
+      - envoyproxy
+  - name: backend-1
+    image: "nginx:alpine"
+    command: ""
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - backends
 provisioner:
   name: ansible
+  playbooks:
+    options:
+      vv: false
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}
+scenario:
+  name: default
 verifier:
   name: ansible

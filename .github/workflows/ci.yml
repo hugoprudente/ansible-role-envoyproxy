@@ -11,7 +11,7 @@ on:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
@@ -19,34 +19,43 @@ jobs:
       - name: Set up Python 3.
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: 3.9
 
       - name: Install test dependencies.
-        run: pip3 install yamllint ansible-lint
+        run: pip3 install yamllint ansible-lint ansible-base
 
       - name: Lint code.
         run: |
-          yamllint .
+          yamllint -c .yamllint .
           ansible-lint
           
-          #  integration:
-          #    name: Integration
-          #    runs-on: ubuntu-latest
-          #    strategy:
-          #      fail-fast: false
-          #      matrix:
-          #        scenario:
-          #          - centos-8
-          #          - ubuntu_latest
-          #          - debian_latest
-          #    steps:
-          #      - name: Checkout
-          #        uses: actions/checkout@v2
-          #        with:
-          #          path: hugoprudente/ansible-role-envoyproxy
-          #      - name: Molecule
-          #        uses: gofrolist/molecule-action@v2
-          #        with:
-          #          molecule_options: --base-config molecule/default/molecule.yml
-          #          molecule_command: test
-          #          molecule_args: --scenario-name ${{ matrix.scenario }}
+  integration:
+    name: Molecule
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        distro:
+          - centos8
+          - ubuntu2004
+          - debian10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: hugoprudente.envoyproxy
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install test dependencies.
+        run: pip3 install ansible-base molecule[docker] docker
+
+      - name: Run Molecule tests.
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.distro }}

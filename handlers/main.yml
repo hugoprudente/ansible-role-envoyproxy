@@ -1,5 +1,5 @@
 ---
-- name: (Handler) Systemd deamon-reload
+- name: (Handler) Systemd daemon-reload
   systemd:
     daemon_reload: yes
 
@@ -14,7 +14,7 @@
   listen: (Handler) Run Envoy Proxy
 
 - name: (Handler) Check Envoy Proxy
-  command: envoyproxy -t
+  command: "/usr/bin/envoy --mode validate -c {{ envoyproxy_config_path }}/{{ envoyproxy_config_name }}"
   register: config_check
   ignore_errors: yes
   check_mode: no

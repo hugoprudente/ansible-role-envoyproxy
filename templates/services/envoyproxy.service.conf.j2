@@ -1,0 +1,15 @@
+[Unit]
+Description=Envoy Proxy the CNCF official Proxy
+Documentation=https://www.envoyproxy.io/docs/envoy/v1.17.1/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/envoy -c {{ envoyproxy_config_path }}/{{ envoyproxy_config_name }}
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStop=/bin/kill -TERM $MAINPID
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

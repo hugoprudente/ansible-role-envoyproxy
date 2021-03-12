@@ -1,0 +1,14 @@
+---
+- name: Create base systemd file
+  template:
+    src: "{{ role_path }}/templates/services/envoyproxy.service.conf.j2"
+    dest: "/etc/systemd/system/envoyproxy.service"
+    owner: root
+    group: root
+    mode: 0644
+    
+- name: Enable systemd
+  service:
+    name: envoyproxy
+    state: started
+    enabled: yes
