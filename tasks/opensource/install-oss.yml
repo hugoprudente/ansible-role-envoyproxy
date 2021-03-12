@@ -14,5 +14,4 @@
         name: "envoyproxy{{ envoyproxy_version | default('') }}"
         state: "{{ envoyproxy_state }}"
       when: envoyproxy_install_from == "os_repository"
-      notify: (Handler) Run Envoy Proxy
   when: ansible_facts['system']

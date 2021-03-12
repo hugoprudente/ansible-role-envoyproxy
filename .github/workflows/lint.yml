@@ -1,0 +1,37 @@
+---
+name: Lint
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - dev
+  schedule:
+    - cron: "0 5 * * 4"
+
+defaults:
+  run:
+    working-directory: 'hugoprudente.envoyproxy'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+        with:
+          path: hugoprudente.envoyproxy
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install test dependencies.
+        run: pip3 install yamllint ansible-lint ansible-base
+
+      - name: Lint code.
+        run: |
+          yamllint -c .yamllint .
+          ansible-lint

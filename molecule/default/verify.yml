@@ -1,9 +1,23 @@
 ---
-# This is an example playbook to execute Ansible tests.
-
 - name: Verify
-  hosts: all
+  hosts: envoyproxy
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
+    - name: Check if envoyproxy is installed
+      stat:
+        path: /urs/bin/envoy
+      register: install 
+      failed_when: install.stat.islnk is defined
+ 
+    - name: Check if envoyproxy service is running
+      service:
+        name: envoyproxy
+        state: started
+        enabled: yes
+      check_mode: yes
+      register: service
+      failed_when: (service is changed) or (service is failed)
+
+    - name: Verify envoyproxy is up and running
+      uri:
+        url: http://127.0.0.1
+        status_code: 200

@@ -13,4 +13,3 @@
     #{{ envoyproxy_version | default('') }}"
     state: "{{ envoyproxy_state }}"
   ignore_errors: "{{ ansible_check_mode }}"
-  notify: (Handler) Run Envoy Proxy
