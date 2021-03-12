@@ -1,14 +1,25 @@
 ---
-- name: Create base systemd file
+- name: Install Envoy Proxy systemd for packages
   template:
     src: "{{ role_path }}/templates/services/envoyproxy.service.conf.j2"
     dest: "/etc/systemd/system/envoyproxy.service"
     owner: root
     group: root
     mode: 0644
-    
-- name: Enable systemd
+  when: envoyproxy_install_from != "container"
+  notify: (Handler) Systemd daemon-reload
+
+- name: Install Envoy Proxy systemd for containers
+  template:
+    src: "{{ role_path }}/templates/services/envoyproxy.container.service.conf.j2"
+    dest: "/etc/systemd/system/envoyproxy.service"
+    owner: root
+    group: root
+    mode: 0644
+  when: envoyproxy_install_from == "container"
+  notify: (Handler) Systemd daemon-reload
+
+- name: Enable Envoy Proxy systemd
   service:
     name: envoyproxy
-    state: started
     enabled: yes

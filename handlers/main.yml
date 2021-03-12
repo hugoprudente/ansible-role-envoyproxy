@@ -20,6 +20,8 @@
   check_mode: no
   changed_when: false
   listen: (Handler) Run Envoy Proxy
+  when:
+    - envoyproxy_install_from != "container"
 
 - name: (Handler) Print Envoy Proxy error if syntax check fails
   debug:

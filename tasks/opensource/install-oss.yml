@@ -9,9 +9,19 @@
       include_tasks: "{{ role_path }}/tasks/opensource/install-source.yml"
       when: envoyproxy_install_from == "source"
 
+    - name: Install Envoy Proxy from container
+      include_tasks: "{{ role_path }}/tasks/opensource/install-container.yml"
+      when: envoyproxy_install_from == "container"
+
     - name: Install Envoy Proxy from package
       package:
         name: "envoyproxy{{ envoyproxy_version | default('') }}"
         state: "{{ envoyproxy_state }}"
       when: envoyproxy_install_from == "os_repository"
+
+    - name: Install Envoy Proxy systemd
+      include_tasks: "{{ role_path }}/tasks/config/setup-systemd.yml"
+      tags: envoyproxy_setup_systemd
+      when:
+        - ansible_facts['service_mgr'] == "systemd"
   when: ansible_facts['system']

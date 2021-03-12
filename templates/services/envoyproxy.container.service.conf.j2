@@ -1,0 +1,16 @@
+[Unit]
+Description=Envoy Proxy the CNCF official Proxy
+Documentation=https://www.envoyproxy.io/docs/envoy/v1.17.1/
+Requires={{ envoyproxy_container_runtime }}.service
+After=network-online.target {{ envoyproxy_container_runtime }}.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+WorkingDirectory={{ envoyproxy_config_path }}/%i
+ExecStart=/usr/local/bin/docker-compose up -d --remove-orphans
+ExecStop=/usr/local/bin/docker-compose down
+
+[Install]
+WantedBy=multi-user.target
