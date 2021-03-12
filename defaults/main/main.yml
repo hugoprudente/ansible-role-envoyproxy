@@ -13,8 +13,10 @@ envoyproxy_install: true
 envoyproxy_start: true
 
 # (Optional) Specify which version of Envoy Proxy you want to install.
+# For containers the tags versions uses a different pattern as following:
+# v1.17, v1.17.1, v1.17-latest
 # Default is to install the latest release.
-# envoyproxy_version: "1.16"
+# envoyproxy_version: "1.17"
 
 # Specify whether you want to maintain your version of Envoy Proxy, upgrade to the latest version, or remove Envoy Proxy.
 # Can be used with `envoyproxy_version` to fine tune control on which version of Envoy Proxy is installed/used on each playbook execution.
@@ -25,10 +27,20 @@ envoyproxy_start: true
 envoyproxy_state: present
 
 # Specify repository origin for Envoy Proxy Open Source.
-# Options are 'envoyproxy_repository', 'source' or 'os_repository'.
-# Only works if 'envoyproxy_type' is set to 'opensource'.
+# Options are 'envoyproxy_repository', 'source', 'os_repository' or 'container'.
 # Default is envoyproxy_repository.
 envoyproxy_install_from: envoyproxy_repository
+
+# Specify repository origin for the Envoy Proxy Container Build. 
+# Option is only used when the envoyproxy_install_from is set to 'container'.
+# Default is envoyproxy/envoy 
+envoyproxy_container_path: envoyproxy/envoy
+
+# Specify container runtime available on the host.
+# Options are 'docker' and 'podman'.
+# REQUIREMENTS: for both 'docker' and 'podman' 'docker-compose' is required. 
+# Option is only used when envoyproxy_install_from is set to 'container'.
+envoyproxy_container_runtime: docker
 
 # (Optional) Choose where to fetch the Envoy Proxy signing key from.
 # Default is the official Envoy Proxy signing key host.

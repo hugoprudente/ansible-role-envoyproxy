@@ -1,0 +1,51 @@
+---
+- name: Remove old packages to avoid conflict
+  apt:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - docker
+    - docker-engine
+    - docker.io
+    - containerd
+    - runc
+
+- name: Install dependencies 
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - gnupg2
+    - software-properties-common    
+
+- name: Add Docker signing key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+
+- name: Add Docker official repository
+  apt_repository:
+    repo: "deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+
+- name: Install Docker from official repository
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: Install docker-compose from official repository
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+    dest: /usr/local/bin/docker-compose
+    mode: '0755'
+
+- name: Start Docker daemon
+  service:
+    name: docker
+    enabled: yes
+    state: started

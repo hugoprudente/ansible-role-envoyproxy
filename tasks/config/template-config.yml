@@ -13,7 +13,7 @@
     state: directory
     owner: root
     group: root
-    mode: "0644"
+    mode: "0777" # Improve this in the future, as it's bad
 
 - name: Copy templates to default directory
   template:
@@ -25,3 +25,4 @@
     #validate: envoy --mode validate --config-path %s
   loop:
     - { src: envoy.yaml.j2, dest: "{{ envoyproxy_config_path }}/{{ envoyproxy_config_name }}" }
+  notify: (Handler) Run Envoy Proxy

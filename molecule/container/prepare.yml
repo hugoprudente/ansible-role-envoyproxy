@@ -1,0 +1,13 @@
+---
+- name: Setting up Podman as container runtime
+  hosts: podman
+  tasks:
+    - name: "Setting up Podman as container runtime"
+      include_tasks: "tasks/podman.yml"
+
+ 
+- name: Setting up Docker as container runtime
+  hosts: docker
+  tasks:
+    - name: "Setting up Docker as container runtime"
+      include_tasks: "tasks/docker.yml"

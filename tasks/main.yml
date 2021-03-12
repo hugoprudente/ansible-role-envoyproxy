@@ -16,12 +16,6 @@
         - name: Install Envoy Proxy Open Source
           include_tasks: "{{ role_path }}/tasks/opensource/install-oss.yml"
           tags: envoyproxy_install_oss
-  
-        - name: Configure basic systemd
-          include_tasks: "{{ role_path }}/tasks/config/setup-systemd.yml"
-          tags: envoyproxy_setup_systemd
-          when:
-            - ansible_facts['service_mgr'] == "systemd"
 
         - name: Modify systemd parameters
           include_tasks: "{{ role_path }}/tasks/config/modify-systemd.yml"

@@ -1,0 +1,101 @@
+---
+- name: "Enable user namespaces as root user"
+  copy:
+    dest: /etc/sysctl.d/00-local-userns.conf
+    mode: '0644'
+    content: |
+      kernel.unprivileged_userns_clone=1
+
+- name: "Restart procps to change take effect"
+  service:
+    name: procps
+    state: restarted
+
+- name: Configure Kubic project repository
+  apt_repository:
+    filename: kubic
+    repo: "deb http://deb.debian.org/debian buster-backports main"
+    update_cache: yes
+    mode: 0644
+  
+- name: Install dependencies 
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - gnupg2
+    - software-properties-common    
+
+- name: Add Opensuse signing key
+  apt_key:
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_10/Release.key"
+
+- name: Configure Libcontainer Opensuse project repository
+  apt_repository:
+    filename: devel:kubic:libcontainers:stable
+    repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_10/ /"
+    update_cache: yes
+    mode: 0644
+
+- name: Install libseccomp2 from backports
+  apt:
+    name: libseccomp2
+    update_cache: yes
+    state: present
+    default_release: buster-backports
+
+- name: Install podman
+  apt:
+    name: podman
+    update_cache: yes
+    state: present
+
+- name: Configure Podman to work PodmanInDocker
+  copy:
+    dest: /etc/containers/containers.conf
+    mode: 0644
+    content: |
+      [ engine ]
+      cgroup_manager = "cgroupfs"
+      [ container ]
+      cgroup_parent = "/var/lib/podman/"      
+
+- name: Replace overlayfs to vfs to run inside another container
+  replace:
+    path: /etc/containers/storage.conf
+    regexp: '"overlay"'
+    replace: '"vfs"'
+
+- name: Remove alternative repo to avoid interactive during tests
+  replace:
+    path: /etc/containers/registries.conf
+    regexp: ', "quay.io"'
+    replace: ''
+
+- name: Create symlink between podman.socket to docker.socket for docker-compose
+  file:
+    src: /var/run/podman/podman.sock
+    dest: /var/run/docker.sock
+    owner: root
+    group: root
+    force: yes
+    state: link
+
+- name: Install docker-compose from official repository
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+    dest: /usr/local/bin/docker-compose
+    mode: '0755'
+
+- name: Start podman deamon
+  service:
+    name: podman
+    state: started
+    enabled: yes
+
+- name: Restart dbus for rootless podman
+  service:
+    name: dbus
+    state: restarted
