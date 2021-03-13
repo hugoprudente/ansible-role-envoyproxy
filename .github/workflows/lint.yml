@@ -2,10 +2,13 @@
 name: Lint
 on:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
-      - dev
+    ignore-tags:
+      - "*"
   schedule:
     - cron: "0 5 * * 4"
 
@@ -29,7 +32,7 @@ jobs:
           python-version: 3.9
 
       - name: Install test dependencies.
-        run: pip3 install yamllint ansible-lint ansible-base
+        run: pip3 install -r .github/workflows/requirements/requirements_lint.txt
 
       - name: Lint code.
         run: |
