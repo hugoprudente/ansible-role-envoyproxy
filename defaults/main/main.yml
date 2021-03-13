@@ -27,7 +27,7 @@ envoyproxy_start: true
 envoyproxy_state: present
 
 # Specify repository origin for Envoy Proxy Open Source.
-# Options are 'envoyproxy_repository', 'source', 'os_repository' or 'container'.
+# Options are 'envoyproxy_repository', 'source', or 'container'.
 # Default is envoyproxy_repository.
 envoyproxy_install_from: envoyproxy_repository
 
