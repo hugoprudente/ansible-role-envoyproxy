@@ -20,7 +20,7 @@ platforms:
     groups:
       - envoyproxy
       - docker
-  - name: node-podman-2
+  - name: node-podman-1
     image: "geerlingguy/docker-debian10-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:

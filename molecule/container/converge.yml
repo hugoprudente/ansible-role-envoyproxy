@@ -1,4 +1,5 @@
 ---
+# Requires docker-compose and Podman or Docker installed on the host, to use it.
 - name: Facts
   hosts: all
   tasks:

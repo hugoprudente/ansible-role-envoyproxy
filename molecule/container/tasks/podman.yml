@@ -43,7 +43,7 @@
   apt:
     name: libseccomp2
     update_cache: yes
-    state: present
+    state: latest # noqa package-latest
     default_release: buster-backports
 
 - name: Install podman

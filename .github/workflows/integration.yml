@@ -2,12 +2,15 @@
 name: Integration
 on:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
-      - dev
+    ignore-tags:
+      - "*"
   schedule:
-    - cron: "0 5 * * 4"
+    - cron: "0 2 15 * *"
 
 defaults:
   run:
@@ -19,10 +22,13 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
+        scenario:
+          - default
+          - container
         distro:
           - centos8
           - ubuntu2004
-          #- debian10
+          - debian10
 
     steps:
       - name: Checkout
@@ -36,10 +42,16 @@ jobs:
           python-version: 3.9
 
       - name: Install test dependencies.
-        run: pip3 install flake8 yamllint ansible molecule[docker] docker ansible-lint
+        run: pip3 install -r .github/workflows/requirements/requirements_molecule.txt
 
-      - name: Run Molecule tests.
-        run: molecule test
+      - name: Uninstall Ansible community distribution (temporary)
+        run: pip3 uninstall -y ansible
+      
+      - name: Install Ansible base dependencies
+        run: ansible-galaxy install -r .github/workflows/requirements/requirements_ansible.yml
+
+      - name: Run Molecule test
+        run: molecule test -s ${{ matrix.scenario }}
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
