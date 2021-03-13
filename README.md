@@ -1,12 +1,15 @@
-[![Integration](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/integration.yml/badge.svg?branch=main)](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/integration.yml)
+[![Ansible Galaxy](https://img.shields.io/badge/galaxy-hugoprudente.envoyproxy-5bbdbf.svg)](https://galaxy.ansible.com/hugoprudente/envoyproxy)
 [![Lint](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/lint.yml)
+[![Molecule CI/CD](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/integration.yml/badge.svg?branch=main)](https://github.com/hugoprudente/ansible-role-envoyproxy/actions/workflows/integration.yml)
+[![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # Ansible Envoy Proxy Role
 
 [Envoy Proxy](envoyproxy.io) it's a powerful edge and service proxy developed for Cloud Native applications. It's a gratuated project in the [CNCF](https://www.cncf.io/projects/) and has native integrations with [Jagger](https://www.jaegertracing.io/) for observability, [Prometheus](https://prometheus.io/) for metrics and insights and others.
 
-This role goal is to help users to deploy and configure the basic of the Envoy Proxy. 
+This role goal is to help users to deploy and configure the basic of the Envoy Proxy, to a VM and baremetal as alternative for the conventional Proxies, Load Balancers tools. 
 
-Envoy Proxy configurations will not be covered here as they are complex and need a lot of work, that will fit perfect in a collections with ansible modules.
+Envoy Proxy configurations will **NOT** be covered here as they have a extra level of complexity that will require a Ansible Collections / Module.
 
 ## Requirements
 
@@ -23,13 +26,12 @@ Envoy Proxy configurations will not be covered here as they are complex and need
 
 ### Ansible Galaxy
 
-Use `ansible-galaxy install hugoprudente.` to install the latest stable release
-of the role on your system.
+Use `ansible-galaxy install hugoprudente.envoyproxy` to install the latest stable release of the role on your system.
 
 ### Git
 
-Use `git clone https://github.com/hugoprudente/ansible-role-envoyproxy.git` to 
-pull the latest edge commit of the role from GitHub.
+Use `git clone https://github.com/hugoprudente/ansible-role-envoyproxy.git hugoprudente.envoyproxy` inside your **roles/** 
+directory to pull the latest edge commit of the role from GitHub.
 
 ## Platforms
 
@@ -47,8 +49,9 @@ CentOS:
 - 8
 Ubuntu:
 - focal (20.04)
+Debian:
+- duster (10)
 ```
-
 
 ## Role Variables
 
@@ -57,7 +60,9 @@ This role has multiple variables. The descriptions and defaults for all these va
 |Name|Description|
 |----|-----------|
 |**[`main.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/defaults/main/main.yml)**|Envoy Proxy installation variables|
-
+|**[`systemd.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/defaults/main/systemd.yml)**|Systemd installation variables|
+|**[`logrotate.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/defaults/main/logrotate.yml)**|Logrotate installation variables|
+|**[`cluster.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/defaults/main/cluster.yml)**|Cluster installation variables|
 
 Similarly, descriptions and defaults for preset variables can be found in the **[`vars/`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/vars/)** folder in the following files:
 
@@ -67,13 +72,15 @@ Similarly, descriptions and defaults for preset variables can be found in the **
 
 ## Example Playbooks
 
-Working functional playbook examples can be found in the **[`molecule/common/playbooks/`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/molecule/common/playbooks/)** folder in the following files:
+Working functional playbook examples can be found in the **[`molecule/`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/molecule/)** folder in the following files:
 
 |Name|Description|
 |----|-----------|
-|**[`default_converge.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/molecule/common/playbooks/default_converge.yml)**|Install a specific version of Envoy Proxy|
-
-Do note that if you install this repository via Ansible Galaxy, you will have to replace the role variable in the sample playbooks from `ansible-role-envoyproxy` to `hugoprudente.envoyproxy`.
+|**default/[`converge.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/molecule/default/converge.yml)**|Install a default version of Envoy Proxy|
+|**container/[`converge.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/molecule/container/converge.yml)**|Install a containerised version of Envoy Proxy|
+|**source/[`converge.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/molecule/source/converge.yml)**|Install Envoy Proxy building from the source|
+|**cluster/[`converge.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/molecule/cluster/converge.yml)**|Install clustered version of Envoy Proxy (Primary/Primary) and (Active/Backup)|
+|**custom/[`converge.yml`](https://github.com/hugoprudente/ansible-role-envoyproxy/blob/main/molecule/custom/converge.yml)**|Install a specific of Envoy Proxy add log rotate and systemd custom|
 
 ## License
 
