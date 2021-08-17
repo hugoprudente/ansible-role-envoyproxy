@@ -1,6 +1,6 @@
 ansible-base==2.10.13
 ansible-lint==5.1.2
 yamllint==1.26.2
-molecule[docker]==3.3.0
+molecule[docker]==3.4.0
 docker==5.0.0
 flake8==3.9.2
