@@ -3,4 +3,4 @@ ansible-lint==5.1.2
 yamllint==1.26.1
 molecule[docker]==3.3.0
 docker==5.0.0
-flake8==3.9.0
+flake8==3.9.2
