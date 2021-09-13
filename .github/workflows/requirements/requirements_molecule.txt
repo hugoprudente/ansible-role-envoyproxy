@@ -1,4 +1,4 @@
-ansible-base==2.10.13
+ansible-base==2.10.14
 ansible-lint==5.1.2
 yamllint==1.26.3
 molecule[docker]==3.4.0
