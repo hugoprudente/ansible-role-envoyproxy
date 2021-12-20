@@ -48,7 +48,7 @@ jobs:
         run: pip3 uninstall -y ansible
       
       - name: Install Ansible base dependencies
-        run: ansible-galaxy install -r .github/workflows/requirements/requirements_ansible.yml
+        run: ansible-galaxy install -r .github/workflows/requirements/requirements_ansible.yml --force
 
       - name: Run Molecule test
         run: molecule test -s ${{ matrix.scenario }}
