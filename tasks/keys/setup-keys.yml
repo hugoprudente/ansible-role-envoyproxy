@@ -1,18 +1,15 @@
 ---
 - name: (Debian/Red Hat/SLES OSs) Set up Envoy Proxy signing key URL
   set_fact:
-    keysite: "{{ envoyproxy_signing_key | default(envoyproxy_default_signing_key_pgp) }}"
+    keysite: "{{ envoyproxy_signing_key | default(envoyproxy_default_signing_key_pgp[ansible_facts['os_family'] | lower]) }}"
   when: ansible_facts['os_family'] != "Alpine"
 
 - name: (Debian/Ubuntu) Add Envoy Proxy signing key
   apt_key:
-    id: 5270CEAC57F63EBD9EA9005D0253D0B26FF974DB
     url: "{{ keysite }}"
   when: ansible_facts['os_family'] == "Debian"
 
 - name: (Amazon Linux/CentOS/Oracle Linux/RHEL/SLES) Add Envoy Proxy signing key
   rpm_key:
-    fingerprint: 5270CEAC57F63EBD9EA9005D0253D0B26FF974DB
     key: "{{ keysite }}"
-    validate_certs: "{{ (ansible_facts['distribution_major_version'] is version('6', '==')) | ternary('no', 'yes') }}"
   when: ansible_facts['os_family'] in ['RedHat', 'Suse']

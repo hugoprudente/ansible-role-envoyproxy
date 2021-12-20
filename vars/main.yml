@@ -8,12 +8,12 @@ envoyproxy_distributions: [
 
 # Debian dependencies
 envoyproxy_debian_dependencies: [
-  'apt-transport-https', 'ca-certificates', 'gnupg2', 'software-properties-common'
+  'apt-transport-https', 'ca-certificates', 'gnupg2', 'software-properties-common', 'debian-keyring', 'debian-archive-keyring'
 ]
 
 # Ubuntu dependencies
 envoyproxy_ubuntu_dependencies: [
-  'apt-transport-https', 'ca-certificates', 'gnupg-agent', 'software-properties-common'
+  'apt-transport-https', 'ca-certificates', 'gnupg-agent', 'software-properties-common', 'gnupg2'
 ]
 
 # Centos/RedHat dependencies
@@ -22,10 +22,12 @@ envoyproxy_redhat_dependencies: [
 ]
 
 # Default Envoy Proxy signin key
-envoyproxy_default_signing_key_pgp: https://getenvoy.io/gpg
+envoyproxy_default_signing_key_pgp:
+  debian: https://deb.dl.getenvoy.io/public/gpg.8115BA8E629CC074.key
+  redhat: https://rpm.dl.getenvoy.io/public/gpg.CF716AF503183491.key
 
 # Default repositories
 envoyproxy_default_repository_debian:
-  - "deb [arch=amd64] https://dl.bintray.com/tetrate/getenvoy-deb {{ ansible_facts['distribution_release'] }} stable"
+  - "deb [arch=amd64] https://deb.dl.getenvoy.io/public/deb/{{ ansible_facts['distribution'] | lower }} {{ ansible_facts['distribution_release'] }} main"
 
-envoyproxy_default_repository_redhat: https://tetrate.bintray.com/getenvoy-rpm/{{ (ansible_facts['distribution'] == 'CentOS') | ternary('centos', 'rhel') }}/$releasever/$basearch/stable/
+envoyproxy_default_repository_redhat: https://rpm.dl.getenvoy.io/public/rpm/el/8/$basearch
