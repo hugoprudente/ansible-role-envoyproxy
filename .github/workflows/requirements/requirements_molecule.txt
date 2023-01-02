@@ -1,5 +1,5 @@
 ansible-base==2.10.17
-ansible-lint==6.10.0
+ansible-lint==6.10.2
 yamllint==1.28.0
 molecule[docker]==3.6.1
 docker==6.0.1
